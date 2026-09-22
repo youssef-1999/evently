@@ -18,28 +18,77 @@ class $AssetsImagesGen {
   AssetGenImage get a1stIntro =>
       const AssetGenImage('assets/images/1st_intro.png');
 
+  /// File path: assets/images/1st_intro_white.png
+  AssetGenImage get a1stIntroWhite =>
+      const AssetGenImage('assets/images/1st_intro_white.png');
+
   /// File path: assets/images/2nd_intro.png
   AssetGenImage get a2ndIntro =>
       const AssetGenImage('assets/images/2nd_intro.png');
+
+  /// File path: assets/images/2nd_intro_white.png
+  AssetGenImage get a2ndIntroWhite =>
+      const AssetGenImage('assets/images/2nd_intro_white.png');
 
   /// File path: assets/images/3rd_intro.png
   AssetGenImage get a3rdIntro =>
       const AssetGenImage('assets/images/3rd_intro.png');
 
+  /// File path: assets/images/3rd_intro_white.png
+  AssetGenImage get a3rdIntroWhite =>
+      const AssetGenImage('assets/images/3rd_intro_white.png');
+
   /// File path: assets/images/4th_intro.png
   AssetGenImage get a4thIntro =>
       const AssetGenImage('assets/images/4th_intro.png');
 
+  /// File path: assets/images/4th_intro_white.png
+  AssetGenImage get a4thIntroWhite =>
+      const AssetGenImage('assets/images/4th_intro_white.png');
+
   /// File path: assets/images/evently.png
   AssetGenImage get evently => const AssetGenImage('assets/images/evently.png');
 
+  /// File path: assets/images/google.png
+  AssetGenImage get google => const AssetGenImage('assets/images/google.png');
+
+  /// File path: assets/images/lock.svg
+  String get lock => 'assets/images/lock.svg';
+
+  /// File path: assets/images/moon.svg
+  String get moon => 'assets/images/moon.svg';
+
+  /// File path: assets/images/route_logo.png
+  AssetGenImage get routeLogo =>
+      const AssetGenImage('assets/images/route_logo.png');
+
+  /// File path: assets/images/sms.svg
+  String get sms => 'assets/images/sms.svg';
+
+  /// File path: assets/images/sun.svg
+  String get sun => 'assets/images/sun.svg';
+
+  /// File path: assets/images/user.svg
+  String get user => 'assets/images/user.svg';
+
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
     a1stIntro,
+    a1stIntroWhite,
     a2ndIntro,
+    a2ndIntroWhite,
     a3rdIntro,
+    a3rdIntroWhite,
     a4thIntro,
+    a4thIntroWhite,
     evently,
+    google,
+    lock,
+    moon,
+    routeLogo,
+    sms,
+    sun,
+    user,
   ];
 }
 

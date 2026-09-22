@@ -1,19 +1,18 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
-import 'package:evently_application/screens/register_screen.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-  static const routeName = '/login';
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+  static const routeName = '/register';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -35,18 +34,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Login to your account',
+                  'Create your account',
                   style: AppTextStyles.styleW600s24(color: AppColors.mainColor),
                 ),
                 const SizedBox(height: 20),
-                CustomTextFormField(label: 'Email', 
+                 CustomTextFormField(label: 'Enter your Name', 
+                 imagePath: Assets.images.user,
+                 validator: (value) {
+                   if (value == null || value.isEmpty) {
+                     return 'Please enter your Name';
+                   }
+                 }),
+                const SizedBox(height: 20),
+
+                CustomTextFormField(label: 'Enter your Email', 
                  imagePath: Assets.images.sms,
                  validator: (value) {
                    if (value == null || value.isEmpty) {
                      return 'Please enter your email';
                    }
                  }),
-                CustomTextFormField(label: 'Password', imagePath: Assets.images.lock, isPassword: true, 
+                const SizedBox(height: 20),
+                CustomTextFormField(label: 'Enter your Password', imagePath: Assets.images.lock, isPassword: true, 
                  validator: (value) {
                    if (value == null || value.isEmpty) {
                      return 'Please enter your Password';
@@ -55,21 +64,17 @@ class _LoginScreenState extends State<LoginScreen> {
                      return 'Password must be at least 6 characters';
                    }
                  }),
-                Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-            
-                        'Forgot Password?',
-                        style: AppTextStyles.styleW600s14(color: AppColors.mainColor)
-                            .copyWith(decoration: TextDecoration.underline),
-            
-                      ),
-                    ),
-                  ],
-                ), 
+                const SizedBox(height: 20),
+                CustomTextFormField(label: 'Confirm your Password', imagePath: Assets.images.lock, isPassword: true, 
+                 validator: (value) {
+                   if (value == null || value.isEmpty) {
+                     return 'Please enter your Password';
+                   }
+                   else if (value.length < 6) {
+                     return 'Password must be at least 6 characters';
+                   }
+                 }),
+               SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -80,12 +85,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: Text(
-                      'Login',
+                      'Sign up',
                       style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        print('Sucesss login');
+                        print('Sucesss Register');
                         // Form is valid, perform login logic here
                       }
                     },
@@ -96,15 +101,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account?',
+                      'Already  have an account?',
                       style: AppTextStyles.styleW400s14(),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
+                                                Navigator.pushNamed(context, RegisterScreen.routeName);
+
                       },
                       child: Text(
-                        'Sign Up',
+                        'Login in',
                         style: AppTextStyles.styleW400s14(color: AppColors.mainColor)
                             .copyWith(decoration: TextDecoration.underline),
                       ),
@@ -144,7 +150,7 @@ children: [
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Login with Google',
+                          'Sign up  with Google',
                           style: AppTextStyles.styleW400s14(),
                         ),
                       ],

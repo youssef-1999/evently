@@ -3,6 +3,10 @@ import 'package:evently_application/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static final ValueNotifier<ThemeMode> themeMode = ValueNotifier(
+    ThemeMode.light,
+  );
+
   static TextTheme _textTheme(Color color) => TextTheme(
     headlineLarge: AppTextStyles.styleW600s24(color: color),
     headlineMedium: AppTextStyles.styleW600s20(color: color),
@@ -16,10 +20,14 @@ class AppTheme {
     labelLarge: AppTextStyles.styleW500s14(color: color),
   );
 
-  static ThemeData lightTheme=ThemeData(
+  static ThemeData lightTheme = ThemeData(
     hintColor: AppColors.lightSecTextColor,
+    hoverColor: AppColors.darkBgColor,
     scaffoldBackgroundColor: AppColors.lightBgColor,
-    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainColor,brightness: Brightness.light),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.mainColor,
+      brightness: Brightness.light,
+    ),
     textTheme: _textTheme(AppColors.lightTextColor),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.lightBgColor,
@@ -30,11 +38,14 @@ class AppTheme {
       iconTheme: IconThemeData(color: AppColors.mainColor),
     ),
   );
-  static ThemeData darkTheme=ThemeData(
+  static ThemeData darkTheme = ThemeData(
     hintColor: AppColors.mainColor,
-
+    hoverColor: AppColors.darkSecTextColor,
     scaffoldBackgroundColor: AppColors.darkBgColor,
-    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainColor,brightness: Brightness.dark),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.mainColor,
+      brightness: Brightness.dark,
+    ),
     textTheme: _textTheme(AppColors.darkTextColor),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkBgColor,
@@ -44,7 +55,6 @@ class AppTheme {
 
       titleTextStyle: AppTextStyles.styleW500s18(color: AppColors.mainColor),
       iconTheme: IconThemeData(color: AppColors.mainColor),
-
     ),
   );
 }
