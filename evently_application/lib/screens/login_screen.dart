@@ -1,6 +1,8 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
+import 'package:evently_application/models/user_model.dart';
 import 'package:evently_application/screens/register_screen.dart';
+import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
 import 'package:flutter/gestures.dart';
@@ -16,6 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController= TextEditingController();
+  bool isLoading=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,13 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   CustomTextFormField(label: 'Email', 
+                  controller: emailController,
                    imagePath: Assets.images.sms,
                    validator: (value) {
                      if (value == null || value.isEmpty) {
                        return 'Please enter your email';
                      }
                    }),
-                  CustomTextFormField(label: 'Password', imagePath: Assets.images.lock, isPassword: true, 
+                  CustomTextFormField(label: 'Password',
+                   controller: passwordController, imagePath: Assets.images.lock, isPassword: true, 
                    validator: (value) {
                      if (value == null || value.isEmpty) {
                        return 'Please enter your Password';
@@ -88,11 +95,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text(
+                      child:isLoading? CircularProgressIndicator(color: AppColors.lightBgColor,): Text(
                         'Login',
                         style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                       ),
-                      onPressed: () {
+                      onPressed: isLoading?null:() async{
+                        bool isValid = formKey.currentState!.validate();
+                        if(isValid){
+                          UserModel user=UserModel(email: emailController.text.trim(), password: passwordController.text.trim());
+                          setState(() {
+                            isLoading=true;
+                          });
+                     UserModel? userData=  await FirebaseAuthService.login(user);
+                          setState(() {
+                            isLoading=true;
+                          });
+                        }
                         if (formKey.currentState!.validate()) {
                           print('Sucesss login');
                           // Form is valid, perform login logic here

@@ -1,6 +1,8 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
+import 'package:evently_application/models/user_model.dart';
 import 'package:evently_application/screens/login_screen.dart';
+import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
 import 'package:flutter/gestures.dart';
@@ -15,6 +17,10 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+    TextEditingController nameController=TextEditingController();
+    TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController= TextEditingController();
+  TextEditingController rePasswordController= TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 20),
                  CustomTextFormField(label: 'Enter your Name', 
+                 controller: nameController,
                  imagePath: Assets.images.user,
                  validator: (value) {
                    if (value == null || value.isEmpty) {
@@ -50,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 20),
 
                 CustomTextFormField(label: 'Enter your Email', 
+                 controller: emailController,
                  imagePath: Assets.images.sms,
                  validator: (value) {
                    if (value == null || value.isEmpty) {
@@ -57,7 +65,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    }
                  }),
                 const SizedBox(height: 20),
-                CustomTextFormField(label: 'Enter your Password', imagePath: Assets.images.lock, isPassword: true, 
+                CustomTextFormField(label: 'Enter your Password',
+                 controller: passwordController,
+                 imagePath: Assets.images.lock, isPassword: true, 
                  validator: (value) {
                    if (value == null || value.isEmpty) {
                      return 'Please enter your Password';
@@ -67,14 +77,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    }
                  }),
                 const SizedBox(height: 20),
-                CustomTextFormField(label: 'Confirm your Password', imagePath: Assets.images.lock, isPassword: true, 
+                CustomTextFormField(label: 'Confirm your Password',
+                 controller: rePasswordController,
+                 imagePath: Assets.images.lock, isPassword: true, 
                  validator: (value) {
-                   if (value == null || value.isEmpty) {
-                     return 'Please enter your Password';
+                   if (value!=passwordController.text.trim()) {
+                     return "Password doesn't match  ";
                    }
-                   else if (value.length < 6) {
-                     return 'Password must be at least 6 characters';
-                   }
+                  
                  }),
                SizedBox(height: 20),
                 SizedBox(
@@ -90,12 +100,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       'Sign up',
                       style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                     ),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        print('Sucesss Register');
-                        // Form is valid, perform login logic here
-                      }
-                    },
+                   onPressed: () async{
+                        bool isValid = formKey.currentState!.validate();
+                        if(isValid){
+                          UserModel user=UserModel(email: emailController.text.trim(), password: passwordController.text.trim(), name: nameController.text.trim(),);
+                          String? error = await FirebaseAuthService.register(user);
+                          if(!context.mounted) return;
+                          if(error == null){
+                            Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(error)),
+                            );
+                          }
+                        }
+                      },
                   ),
                 ),
                 const SizedBox(height: 20),
