@@ -1,7 +1,9 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
+import 'package:evently_application/screens/login_screen.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -100,21 +102,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Already  have an account?',
-                      style: AppTextStyles.styleW400s14(),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                                                Navigator.pushNamed(context, RegisterScreen.routeName);
+                   RichText(
+  text: TextSpan(
+    text: "Already  have an account? ",
 
-                      },
-                      child: Text(
-                        'Login in',
-                        style: AppTextStyles.styleW400s14(color: AppColors.mainColor)
-                            .copyWith(decoration: TextDecoration.underline),
-                      ),
-                    ),
+        style: AppTextStyles.styleW400s14(color: AppColors.lightTextColor),
+    children: [
+      TextSpan(
+        text: "Login",
+        style: AppTextStyles.styleW400s14(color: AppColors.mainColor),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            Navigator.of(context)
+                .pushNamed(LoginScreen.routeName);
+          },
+      ),
+    ],
+  ),
+)
                   ],
                 ),
                 const SizedBox(height: 20),
