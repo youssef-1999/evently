@@ -26,6 +26,7 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.lightBgColor,
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.mainColor,
+      primary: AppColors.mainColor,
       brightness: Brightness.light,
     ),
     textTheme: _textTheme(AppColors.lightTextColor),
@@ -44,6 +45,7 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.darkBgColor,
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.mainColor,
+      primary: AppColors.mainColor,
       brightness: Brightness.dark,
     ),
     textTheme: _textTheme(AppColors.darkTextColor),
