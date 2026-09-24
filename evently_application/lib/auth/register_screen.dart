@@ -1,7 +1,7 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/user_model.dart';
-import 'package:evently_application/screens/login_screen.dart';
+import 'package:evently_application/auth/login_screen.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
@@ -22,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController= TextEditingController();
   TextEditingController rePasswordController= TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isLoading=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,19 +101,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       'Sign up',
                       style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                     ),
-                   onPressed: () async{
+                   onPressed:isLoading ? null :() async{
                         bool isValid = formKey.currentState!.validate();
                         if(isValid){
                           UserModel user=UserModel(email: emailController.text.trim(), password: passwordController.text.trim(), name: nameController.text.trim(),);
-                          String? error = await FirebaseAuthService.register(user);
+                          setState(() {
+                            isLoading=true;
+                          });
+                          UserModel? userData = await FirebaseAuthService.register(user);
+                          setState(() {
+                            isLoading=false;
+                          });
                           if(!context.mounted) return;
-                          if(error == null){
+                          if(userData!=null){
+                             ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Register success',style:AppTextStyles.styleW400s16(color: Colors.white)),backgroundColor: Colors.green,),
+                            );
                             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-                          } else {
+                          }
+                          else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(error)),
+                              SnackBar(content: Text(FirebaseAuthService.lastError ?? 'Register failed',style:AppTextStyles.styleW400s16(color: Colors.white)),backgroundColor: Colors.red,),
                             );
                           }
+                          
                         }
                       },
                   ),

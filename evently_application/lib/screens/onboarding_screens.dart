@@ -1,7 +1,7 @@
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/intro_model.dart';
-import 'package:evently_application/screens/login_screen.dart';
+import 'package:evently_application/auth/login_screen.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/intro_item.dart';
 import 'package:flutter/material.dart';

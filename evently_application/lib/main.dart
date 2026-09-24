@@ -1,9 +1,11 @@
 import 'package:evently_application/firebase_options.dart';
+import 'package:evently_application/screens/home_screen.dart';
 import 'package:evently_application/screens/intro_screen.dart';
-import 'package:evently_application/screens/login_screen.dart';
+import 'package:evently_application/auth/login_screen.dart';
 import 'package:evently_application/screens/onboarding_screens.dart';
-import 'package:evently_application/screens/register_screen.dart';
+import 'package:evently_application/auth/register_screen.dart';
 import 'package:evently_application/theme/app_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,10 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  bool isLoggedIn()
+{
+  return FirebaseAuth.instance.currentUser == null?false:true;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +35,9 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
           OnboardingScreens.routeName: (context) => OnboardingScreens(),
+          HomeScreen.routeName: (context) => HomeScreen(),
         },
-        home: const IntroScreen(),
+        home: isLoggedIn() ? const HomeScreen() : const IntroScreen(),
       ),
     );
   }
