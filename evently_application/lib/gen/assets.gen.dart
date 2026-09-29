@@ -46,11 +46,57 @@ class $AssetsImagesGen {
   AssetGenImage get a4thIntroWhite =>
       const AssetGenImage('assets/images/4th_intro_white.png');
 
+  /// File path: assets/images/Birthday-1.png
+  AssetGenImage get birthday1 =>
+      const AssetGenImage('assets/images/Birthday-1.png');
+
+  /// File path: assets/images/Birthday.png
+  AssetGenImage get birthday =>
+      const AssetGenImage('assets/images/Birthday.png');
+
+  /// File path: assets/images/Book Club-1.png
+  AssetGenImage get bookClub1 =>
+      const AssetGenImage('assets/images/Book Club-1.png');
+
+  /// File path: assets/images/Book Club.png
+  AssetGenImage get bookClub =>
+      const AssetGenImage('assets/images/Book Club.png');
+
+  /// File path: assets/images/Exhibition-1.png
+  AssetGenImage get exhibition1 =>
+      const AssetGenImage('assets/images/Exhibition-1.png');
+
+  /// File path: assets/images/Exhibition.png
+  AssetGenImage get exhibition =>
+      const AssetGenImage('assets/images/Exhibition.png');
+
+  /// File path: assets/images/Meeting-1.png
+  AssetGenImage get meeting1 =>
+      const AssetGenImage('assets/images/Meeting-1.png');
+
+  /// File path: assets/images/Meeting.png
+  AssetGenImage get meeting => const AssetGenImage('assets/images/Meeting.png');
+
+  /// File path: assets/images/Sport-1.png
+  AssetGenImage get sport1 => const AssetGenImage('assets/images/Sport-1.png');
+
+  /// File path: assets/images/Sport.png
+  AssetGenImage get sport => const AssetGenImage('assets/images/Sport.png');
+
+  /// File path: assets/images/all.svg
+  String get all => 'assets/images/all.svg';
+
   /// File path: assets/images/evently.png
   AssetGenImage get evently => const AssetGenImage('assets/images/evently.png');
 
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
+
+  /// File path: assets/images/home_dark.svg
+  String get homeDark => 'assets/images/home_dark.svg';
+
+  /// File path: assets/images/home_light.svg
+  String get homeLight => 'assets/images/home_light.svg';
 
   /// File path: assets/images/lock.svg
   String get lock => 'assets/images/lock.svg';
@@ -62,6 +108,10 @@ class $AssetsImagesGen {
   AssetGenImage get routeLogo =>
       const AssetGenImage('assets/images/route_logo.png');
 
+  /// File path: assets/images/route_profile.png
+  AssetGenImage get routeProfile =>
+      const AssetGenImage('assets/images/route_profile.png');
+
   /// File path: assets/images/sms.svg
   String get sms => 'assets/images/sms.svg';
 
@@ -70,6 +120,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/user.svg
   String get user => 'assets/images/user.svg';
+
+  /// File path: assets/images/user_dark.svg
+  String get userDark => 'assets/images/user_dark.svg';
 
   /// List of all assets
   List<dynamic> get values => [
@@ -81,14 +134,29 @@ class $AssetsImagesGen {
     a3rdIntroWhite,
     a4thIntro,
     a4thIntroWhite,
+    birthday1,
+    birthday,
+    bookClub1,
+    bookClub,
+    exhibition1,
+    exhibition,
+    meeting1,
+    meeting,
+    sport1,
+    sport,
+    all,
     evently,
     google,
+    homeDark,
+    homeLight,
     lock,
     moon,
     routeLogo,
+    routeProfile,
     sms,
     sun,
     user,
+    userDark,
   ];
 }
 

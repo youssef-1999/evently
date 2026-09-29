@@ -20,6 +20,14 @@ class AppTheme {
     labelLarge: AppTextStyles.styleW500s14(color: color),
   );
 
+  static ChipThemeData _chipTheme(Color backgroundColor) => ChipThemeData(
+    selectedColor: AppColors.secColor,
+    backgroundColor: backgroundColor,
+    showCheckmark: false,
+    labelStyle: AppTextStyles.styleW600s16(color: AppColors.lightColor),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+  );
+
   static ThemeData lightTheme = ThemeData(
     hintColor: AppColors.lightSecTextColor,
     hoverColor: AppColors.darkBgColor,
@@ -30,6 +38,7 @@ class AppTheme {
       brightness: Brightness.light,
     ),
     textTheme: _textTheme(AppColors.lightTextColor),
+    chipTheme: _chipTheme(AppColors.lightBgColor),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.lightBgColor,
       foregroundColor: AppColors.mainColor,
@@ -49,6 +58,7 @@ class AppTheme {
       brightness: Brightness.dark,
     ),
     textTheme: _textTheme(AppColors.darkTextColor),
+    chipTheme: _chipTheme(AppColors.darkBgColor),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkBgColor,
       foregroundColor: AppColors.mainColor,

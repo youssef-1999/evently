@@ -60,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
                     }
+                    return null;
                   },
                 ),
                 CustomTextFormField(
@@ -73,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     } else if (value.length < 6) {
                       return 'Password must be at least 6 characters';
                     }
+                    return null;
                   },
                 ),
                 Row(
@@ -98,16 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    child: isLoading
-                        ? CircularProgressIndicator(
-                            color: AppColors.lightBgColor,
-                          )
-                        : Text(
-                            'Login',
-                            style: AppTextStyles.styleW500s20(
-                              color: AppColors.lightBgColor,
-                            ),
-                          ),
                     onPressed: isLoading
                         ? null
                         : () async {
@@ -140,7 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                                 Navigator.of(
                                   context,
-                                ).pop(HomeScreen.routeName);
+                                ).pushNamedAndRemoveUntil(
+                                  HomeScreen.routeName,
+                                  (route) => false,
+                                );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -160,6 +155,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             }
                           },
+                    child: isLoading
+                        ? CircularProgressIndicator(
+                            color: AppColors.lightBgColor,
+                          )
+                        : Text(
+                            'Login',
+                            style: AppTextStyles.styleW500s20(
+                              color: AppColors.lightBgColor,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),

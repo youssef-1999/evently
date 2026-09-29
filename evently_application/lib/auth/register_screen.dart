@@ -54,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    if (value == null || value.isEmpty) {
                      return 'Please enter your Name';
                    }
+                   return null;
                  }),
                 const SizedBox(height: 20),
 
@@ -64,6 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    if (value == null || value.isEmpty) {
                      return 'Please enter your email';
                    }
+                   return null;
                  }),
                 const SizedBox(height: 20),
                 CustomTextFormField(label: 'Enter your Password',
@@ -76,6 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    else if (value.length < 6) {
                      return 'Password must be at least 6 characters';
                    }
+                   return null;
                  }),
                 const SizedBox(height: 20),
                 CustomTextFormField(label: 'Confirm your Password',
@@ -85,6 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                    if (value!=passwordController.text.trim()) {
                      return "Password doesn't match  ";
                    }
+                   return null;
                   
                  }),
                SizedBox(height: 20),
@@ -96,10 +100,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                    ),
-                    child: Text(
-                      'Sign up',
-                      style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                     ),
                    onPressed:isLoading ? null :() async{
                         bool isValid = formKey.currentState!.validate();
@@ -127,6 +127,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           
                         }
                       },
+                    child: Text(
+                      'Sign up',
+                      style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
