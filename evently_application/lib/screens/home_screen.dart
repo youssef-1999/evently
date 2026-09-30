@@ -1,6 +1,8 @@
+import 'package:evently_application/screens/add_event.dart';
 import 'package:evently_application/screens/tabs/favorite_tab.dart';
 import 'package:evently_application/screens/tabs/home_tab.dart';
 import 'package:evently_application/screens/tabs/profile_tab.dart';
+import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/bottom_navigation_bar.dart';
 import 'package:evently_application/widgets/home_header.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
       body: IndexedStack(
         index: currentIndex,
         children: tabs,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle FAB press
+          Navigator.pushNamed(context, AddEvent.routeName);
+        },
+        backgroundColor: AppColors.mainColor,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: currentIndex,

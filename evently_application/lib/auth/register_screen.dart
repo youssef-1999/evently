@@ -5,6 +5,7 @@ import 'package:evently_application/auth/login_screen.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
+import 'package:evently_application/widgets/snackbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -114,15 +115,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                           if(!context.mounted) return;
                           if(userData!=null){
-                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Register success',style:AppTextStyles.styleW400s16(color: Colors.white)),backgroundColor: Colors.green,),
-                            );
+                            Snackbar.successSnackbar('Register successful', context);
                             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
                           }
                           else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(FirebaseAuthService.lastError ?? 'Register failed',style:AppTextStyles.styleW400s16(color: Colors.white)),backgroundColor: Colors.red,),
-                            );
+                            Snackbar.errorSnackbar(FirebaseAuthService.lastError ?? 'Register failed', context);
                           }
                           
                         }

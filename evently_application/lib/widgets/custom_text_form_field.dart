@@ -7,14 +7,20 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     this.label,
-    required this.imagePath,
+    this.hintText,
+    this.imagePath,
     this.validator,
     this.isPassword = false, this.controller,
+    this.maxLines = 1,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
   });
 
   final String? label;
+  final String? hintText;
   final bool isPassword;
-  final String imagePath;
+  final String? imagePath;
+  final int maxLines;
+  final EdgeInsetsGeometry padding;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
 
@@ -28,7 +34,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+      padding: widget.padding,
       child: TextFormField(
         controller: widget.controller,
         onTapOutside: (event) => {
@@ -36,15 +42,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         },
         validator: widget.validator,
         obscureText: enablePassword,
+        maxLines: widget.isPassword ? 1 : widget.maxLines,
         decoration: InputDecoration(
           labelText: widget.label,
           labelStyle: AppTextStyles.styleW400s16().copyWith(
             color: Theme.of(context).hoverColor,
           ),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SvgPicture.asset(widget.imagePath),
-          ),
+          hintText: widget.hintText,
+          prefixIcon: widget.imagePath == null
+              ? null
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SvgPicture.asset(widget.imagePath!),
+                ),
           suffixIcon: widget.isPassword
               ?InkWell(
                 onTap: () {

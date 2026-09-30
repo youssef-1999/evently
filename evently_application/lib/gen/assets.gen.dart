@@ -86,6 +86,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/all.svg
   String get all => 'assets/images/all.svg';
 
+  /// File path: assets/images/calendar-add.svg
+  String get calendarAdd => 'assets/images/calendar-add.svg';
+
+  /// File path: assets/images/clock.svg
+  String get clock => 'assets/images/clock.svg';
+
   /// File path: assets/images/evently.png
   AssetGenImage get evently => const AssetGenImage('assets/images/evently.png');
 
@@ -145,6 +151,8 @@ class $AssetsImagesGen {
     sport1,
     sport,
     all,
+    calendarAdd,
+    clock,
     evently,
     google,
     homeDark,

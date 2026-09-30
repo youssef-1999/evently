@@ -6,6 +6,8 @@ import 'package:evently_application/screens/home_screen.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
+import 'package:evently_application/widgets/main_button.dart';
+import 'package:evently_application/widgets/snackbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -91,81 +93,44 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: isLoading
-                        ? null
-                        : () async {
-                            bool isValid = formKey.currentState!.validate();
-                            if (isValid) {
-                              UserModel user = UserModel(
-                                email: emailController.text.trim(),
-                                password: passwordController.text.trim(),
-                              );
-                              setState(() {
-                                isLoading = true;
-                              });
-                              UserModel? userData =
-                                  await FirebaseAuthService.login(user);
-                              setState(() {
-                                isLoading = false;
-                              });
-                              if (!context.mounted) return;
-                              if (userData != null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Login success',
-                                      style: AppTextStyles.styleW400s16(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                                Navigator.of(
-                                  context,
-                                ).pushNamedAndRemoveUntil(
-                                  HomeScreen.routeName,
-                                  (route) => false,
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      FirebaseAuthService.lastError ??
-                                          'Invalid email or password',
-                                      style: AppTextStyles.styleW400s16(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
-                            }
-                          },
-                    child: isLoading
-                        ? CircularProgressIndicator(
-                            color: AppColors.lightBgColor,
-                          )
-                        : Text(
-                            'Login',
-                            style: AppTextStyles.styleW500s20(
-                              color: AppColors.lightBgColor,
-                            ),
-                          ),
-                  ),
+                MainButton(
+                  text: 'Login',
+                  isLoading: isLoading,
+                  onPressed: () async {
+                    bool isValid = formKey.currentState!.validate();
+                    if (isValid) {
+                      UserModel user = UserModel(
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
+                      setState(() {
+                        isLoading = true;
+                      });
+                      UserModel? userData = await FirebaseAuthService.login(
+                        user,
+                      );
+                      setState(() {
+                        isLoading = false;
+                      });
+                      if (!context.mounted) return;
+                      if (userData != null) {
+                        Snackbar.successSnackbar('Login success', context);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          HomeScreen.routeName,
+                          (route) => false,
+                        );
+                      } else {
+                        Snackbar.errorSnackbar(
+                          FirebaseAuthService.lastError ??
+                              'Invalid email or password',
+                          context,
+                        );
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    }
+                  },
                 ),
                 const SizedBox(height: 20),
                 Row(
