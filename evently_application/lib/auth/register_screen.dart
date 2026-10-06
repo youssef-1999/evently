@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/user_model.dart';
@@ -26,6 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading=false;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body:
       
@@ -44,50 +46,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Create your account',
+                  l10n.createAccount,
                   style: AppTextStyles.styleW600s24(color: AppColors.mainColor),
                 ),
                 const SizedBox(height: 20),
-                 CustomTextFormField(label: 'Enter your Name', 
+                 CustomTextFormField(label: l10n.enterName, 
                  controller: nameController,
                  imagePath: Assets.images.user,
                  validator: (value) {
                    if (value == null || value.isEmpty) {
-                     return 'Please enter your Name';
+                     return l10n.enterNameError;
                    }
                    return null;
                  }),
                 const SizedBox(height: 20),
 
-                CustomTextFormField(label: 'Enter your Email', 
+                CustomTextFormField(label: l10n.enterEmail, 
                  controller: emailController,
                  imagePath: Assets.images.sms,
                  validator: (value) {
                    if (value == null || value.isEmpty) {
-                     return 'Please enter your email';
+                     return l10n.enterEmailError;
                    }
                    return null;
                  }),
                 const SizedBox(height: 20),
-                CustomTextFormField(label: 'Enter your Password',
+                CustomTextFormField(label: l10n.enterPassword,
                  controller: passwordController,
                  imagePath: Assets.images.lock, isPassword: true, 
                  validator: (value) {
                    if (value == null || value.isEmpty) {
-                     return 'Please enter your Password';
+                     return l10n.enterPasswordError;
                    }
                    else if (value.length < 6) {
-                     return 'Password must be at least 6 characters';
+                     return l10n.passwordLengthError;
                    }
                    return null;
                  }),
                 const SizedBox(height: 20),
-                CustomTextFormField(label: 'Confirm your Password',
+                CustomTextFormField(label: l10n.confirmPassword,
                  controller: rePasswordController,
                  imagePath: Assets.images.lock, isPassword: true, 
                  validator: (value) {
                    if (value!=passwordController.text.trim()) {
-                     return "Password doesn't match  ";
+                     return l10n.passwordMismatchError;
                    }
                    return null;
                   
@@ -115,17 +117,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                           if(!context.mounted) return;
                           if(userData!=null){
-                            Snackbar.successSnackbar('Register successful', context);
+                            Snackbar.successSnackbar(l10n.registerSuccess, context);
                             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
                           }
                           else {
-                            Snackbar.errorSnackbar(FirebaseAuthService.lastError ?? 'Register failed', context);
+                            Snackbar.errorSnackbar(FirebaseAuthService.lastError ?? l10n.registerFailed, context);
                           }
                           
                         }
                       },
                     child: Text(
-                      'Sign up',
+                      l10n.signUp,
                       style: AppTextStyles.styleW500s20(color: AppColors.lightBgColor),
                     ),
                   ),
@@ -136,12 +138,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                    RichText(
   text: TextSpan(
-    text: "Already  have an account? ",
+    text: l10n.haveAccount,
 
         style: AppTextStyles.styleW400s14(color: AppColors.lightTextColor),
     children: [
       TextSpan(
-        text: "Login",
+        text: l10n.login,
         style: AppTextStyles.styleW400s14(color: AppColors.mainColor),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
@@ -159,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 children: [
   Expanded(child: Divider()), 
   Text(
-    'Or',
+    l10n.or,
     style: AppTextStyles.styleW400s14(),
   ),
   Expanded(child: Divider()), 
@@ -187,7 +189,7 @@ children: [
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Sign up  with Google',
+                          l10n.signUpWithGoogle,
                           style: AppTextStyles.styleW400s14(),
                         ),
                       ],

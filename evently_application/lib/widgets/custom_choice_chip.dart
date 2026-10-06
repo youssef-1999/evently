@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/enum/categories_enum.dart';
 import 'package:evently_application/gen/assets.gen.dart';
@@ -55,7 +56,9 @@ class CustomChoiceChip extends StatelessWidget {
                   color: isSelected ? AppColors.lightColor : AppColors.secColor,
                 ),
           Text(
-            isAll ? 'All' : categoriesEnum!.title,
+            isAll
+                ? AppLocalizations.of(context)!.all
+                : categoriesEnum!.getTitle(context),
             style: AppTextStyles.styleW600s16(
               color: isSelected ? AppColors.lightColor : AppColors.secColor,
             ),

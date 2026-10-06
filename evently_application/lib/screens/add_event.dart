@@ -1,6 +1,9 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/enum/categories_enum.dart';
 import 'package:evently_application/gen/assets.gen.dart';
+import 'package:evently_application/models/event_model.dart';
 import 'package:evently_application/provider/new_event_provider.dart';
+import 'package:evently_application/service/event_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/add_event_form.dart';
 import 'package:evently_application/widgets/custom_choice_chip.dart';
@@ -52,6 +55,7 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ChangeNotifierProvider(
       create: (_) => NewEventProvider(),
@@ -60,7 +64,7 @@ class _AddEventState extends State<AddEvent> {
          NewEventProvider provider= Provider.of<NewEventProvider>(ctx, listen: true);
          NewEventProvider provider2= Provider.of<NewEventProvider>(ctx, listen: false);
           return Scaffold(
-            appBar: AppBar(title: const Text('Add Event')),
+            appBar: AppBar(title: Text(l10n.addEvent)),
             body: Form(
               key: formKey,
               child: SingleChildScrollView(
@@ -91,25 +95,25 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       const SizedBox(height: 16),
                       AddEventFormField(
-                        label: 'Title',
-                        hintText: 'Event Title',
+                        label: l10n.title,
+                        hintText: l10n.eventTitle,
                         controller: titleController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a title';
+                            return l10n.enterTitleError;
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 16),
                       AddEventFormField(
-                        label: 'Description',
-                        hintText: 'Event Description',
+                        label: l10n.description,
+                        hintText: l10n.eventDescription,
                         controller: descriptionController,
                         maxLines: 5,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a description';
+                            return l10n.enterDescriptionError;
                           }
                           return null;
                         },
@@ -117,16 +121,16 @@ class _AddEventState extends State<AddEvent> {
                       const SizedBox(height: 16),
                       EventPickerRow(
                         iconPath: Assets.images.calendarAdd,
-                        label: 'Event Date',
+                        label: l10n.eventDate,
                         actionText: provider.selectedDate == null
-                            ? 'Select Date'
+                            ? l10n.selectDate
                             : MaterialLocalizations.of(
                                 context,
                               ).formatCompactDate(provider.selectedDate!),
                         onTap: () => pickDate(provider2),
                         validator: (value) {
                           if (provider.selectedDate == null) {
-                            return 'Please select a date';
+                            return l10n.selectDateError;
                           }
                           return null;
                         },
@@ -134,14 +138,14 @@ class _AddEventState extends State<AddEvent> {
                       const SizedBox(height: 16),
                       EventPickerRow(
                         iconPath: Assets.images.clock,
-                        label: 'Event Time',
+                        label: l10n.eventTime,
                         actionText: provider.selectedTime == null
-                            ? 'Select Time'
+                            ? l10n.selectTime
                             : provider.selectedTime!.format(context),
                         onTap: () => pickTime(provider2),
                         validator: (value) {
                           if (provider.selectedTime == null) {
-                            return 'Please select a time';
+                            return l10n.selectTimeError;
                           }
                           return null;
                         },
@@ -156,19 +160,21 @@ class _AddEventState extends State<AddEvent> {
                         ),
                         onPressed: () {
                          bool isValid = formKey.currentState?.validate() ?? false;
-                          if (isValid) {
-                            // Handle form submission
-                            // You can access the values using titleController.text, descriptionController.text, selectedDate, and selectedTime
-                            // For example, you can print them to the console:
-                            print('Title: ${titleController.text}');
-                            print('Description: ${descriptionController.text}');
-                            print('Date: ${provider.selectedDate}');
-                            print('Time: ${provider.selectedTime}');
-                          }
+                          if (!isValid) return;
+                          EventModel event = EventModel(
+                            id: DateTime.now().millisecondsSinceEpoch.toString(),
+                            title: titleController.text,
+                            description: descriptionController.text,
+                            date: provider.getFormattedDate(),
+                            category: provider.selectedCategory,
+                            isFavorite: false,
+                          );
+                          EventService.addEvent(event);
+                          Navigator.pop(context);
                         },
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(color: AppColors.lightColor),
+                        child: Text(
+                          l10n.save,
+                          style: const TextStyle(color: AppColors.lightColor),
                         ),
                       ),
                     ],

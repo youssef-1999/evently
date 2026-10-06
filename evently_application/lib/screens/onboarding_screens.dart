@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/intro_model.dart';
@@ -20,27 +21,27 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  final List<IntroModel> _introItems = [
+  List<IntroModel> _buildIntroItems(AppLocalizations l10n) => [
     IntroModel(
       image: Assets.images.a2ndIntro.path,
       darkImage: Assets.images.a2ndIntroWhite.path,
-      title: 'Find Events That Inspire You',
+      title: l10n.onboarding1Title,
       subtitle:
-          "Dive into a world of events crafted to fit your unique interests. Whether you're into live music, art workshops, professional networking, or simply discovering new experiences, we have something for everyone. Our curated recommendations will help you explore, connect, and make the most of every opportunity around you.",
+          l10n.onboarding1Subtitle,
     ),
     IntroModel(
       image: Assets.images.a3rdIntro.path,
       darkImage: Assets.images.a3rdIntroWhite.path,
-      title: 'Effortless Event Planning',
+      title: l10n.onboarding2Title,
       subtitle:
-          "Take the hassle out of organizing events with our all-in-one planning tools. From setting up invites and managing RSVPs to scheduling reminders and coordinating details, we’ve got you covered. Plan with ease and focus on what matters – creating an unforgettable experience for you and your guests.",
+          l10n.onboarding2Subtitle,
     ),
     IntroModel(
       image: Assets.images.a4thIntro.path,
       darkImage: Assets.images.a4thIntroWhite.path,
-      title: 'Connect with Friends & Share Moments',
+      title: l10n.onboarding3Title,
       subtitle:
-          'Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.',
+          l10n.onboarding3Subtitle,
     ),
   ];
 
@@ -77,7 +78,9 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     // secColor is too dark to read on the dark background, so use mainColor there.
     final accent = isDark ? AppColors.mainColor : AppColors.secColor;
-    final isLastPage = _currentIndex == _introItems.length - 1;
+    final l10n = AppLocalizations.of(context)!;
+    final introItems = _buildIntroItems(l10n);
+    final isLastPage = _currentIndex == introItems.length - 1;
 
     return Scaffold(
       body: SafeArea(
@@ -112,7 +115,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                   TextButton(
                     onPressed: _goToLogin,
                     child: Text(
-                      'Skip',
+                      l10n.skip,
                       style: AppTextStyles.styleW600s14(color: accent),
                     ),
                   ),
@@ -124,15 +127,15 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: _introItems.length,
+                  itemCount: introItems.length,
                   onPageChanged: (index) =>
                       setState(() => _currentIndex = index),
                   itemBuilder: (context, index) => IntroItem(
                     image: isDark
-                        ? _introItems[index].darkImage
-                        : _introItems[index].image,
-                    title: _introItems[index].title,
-                    subtitle: _introItems[index].subtitle,
+                        ? introItems[index].darkImage
+                        : introItems[index].image,
+                    title: introItems[index].title,
+                    subtitle: introItems[index].subtitle,
                   ),
                 ),
               ),
@@ -141,7 +144,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                 style: ElevatedButton.styleFrom(backgroundColor: accent),
                 onPressed: isLastPage ? _goToLogin : _goToNextPage,
                 child: Text(
-                  isLastPage ? 'Finish' : 'Next',
+                  isLastPage ? l10n.finish : l10n.next,
                   style: AppTextStyles.styleW600s16(
                     color: AppColors.lightBgColor,
                   ),
@@ -153,7 +156,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                 children: [
                   AnimatedSmoothIndicator(
                     activeIndex: _currentIndex,
-                    count: _introItems.length,
+                    count: introItems.length,
                     onDotClicked: (index) => _pageController.animateToPage(
                       index,
                       duration: const Duration(milliseconds: 300),

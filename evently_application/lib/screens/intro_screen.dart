@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/screens/onboarding_screens.dart';
 import 'package:evently_application/theme/app_colors.dart';
@@ -11,6 +12,7 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     // secColor is too dark to read on the dark background, so use mainColor there.
@@ -55,11 +57,11 @@ class IntroScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Personalize Your Experience",
+                        l10n.personalizeTitle,
                         style: theme.textTheme.headlineMedium,
                       ),
                       Text(
-                        "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+                        l10n.personalizeSubtitle,
                         style: theme.textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 10),
@@ -67,7 +69,7 @@ class IntroScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Language",
+                            l10n.language,
                             style: AppTextStyles.styleW500s18(color: accent),
                           ),
                           // Flexible + FittedBox shrinks the buttons on narrow
@@ -82,7 +84,7 @@ class IntroScreen extends StatelessWidget {
                                   ElevatedButton(
                                     style: toggleStyle(selected: true),
                                     child: Text(
-                                      "English",
+                                      l10n.english,
                                       style: AppTextStyles.styleW600s16(
                                         color: toggleForeground(selected: true),
                                       ),
@@ -93,7 +95,7 @@ class IntroScreen extends StatelessWidget {
                                   ElevatedButton(
                                     style: toggleStyle(selected: false),
                                     child: Text(
-                                      "Arabic",
+                                      l10n.arabic,
                                       style: AppTextStyles.styleW600s16(
                                         color: toggleForeground(
                                           selected: false,
@@ -113,7 +115,7 @@ class IntroScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Theme",
+                            l10n.theme,
                             style: AppTextStyles.styleW500s18(color: accent),
                           ),
                           Row(
@@ -165,10 +167,9 @@ class IntroScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(backgroundColor: accent),
                   onPressed: () {
                     Navigator.pushNamed(context, OnboardingScreens.routeName);
-                    print("Next");
                   },
                   child: Text(
-                    "Next",
+                    l10n.next,
                     style: AppTextStyles.styleW600s16(
                       color: AppColors.lightBgColor,
                     ),

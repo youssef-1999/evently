@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/user_model.dart';
@@ -10,6 +11,8 @@ import 'package:evently_application/widgets/main_button.dart';
 import 'package:evently_application/widgets/snackbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:evently_application/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
@@ -46,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Login to your account',
+                      l10n.loginTitle,
                       style: AppTextStyles.styleW600s24(
                         color: AppColors.mainColor,
                       ).copyWith(),
@@ -55,26 +59,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 CustomTextFormField(
-                  label: 'Email',
+                  label: l10n.email,
                   controller: emailController,
                   imagePath: Assets.images.sms,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return l10n.enterEmailError;
                     }
                     return null;
                   },
                 ),
                 CustomTextFormField(
-                  label: 'Password',
+                  label: l10n.password,
                   controller: passwordController,
                   imagePath: Assets.images.lock,
                   isPassword: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your Password';
+                      return l10n.enterPasswordError;
                     } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return l10n.passwordLengthError;
                     }
                     return null;
                   },
@@ -85,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        'Forgot Password?',
+                        l10n.forgotPassword,
                         style: AppTextStyles.styleW600s14(
                           color: AppColors.mainColor,
                         ).copyWith(decoration: TextDecoration.underline),
@@ -94,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 MainButton(
-                  text: 'Login',
+                  text: l10n.login,
                   isLoading: isLoading,
                   onPressed: () async {
                     bool isValid = formKey.currentState!.validate();
@@ -114,7 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                       if (!context.mounted) return;
                       if (userData != null) {
-                        Snackbar.successSnackbar('Login success', context);
+                        context.read<UserProvider>().setUser(userData);
+                        Snackbar.successSnackbar(l10n.loginSuccess, context);
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           HomeScreen.routeName,
                           (route) => false,
@@ -122,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else {
                         Snackbar.errorSnackbar(
                           FirebaseAuthService.lastError ??
-                              'Invalid email or password',
+                              l10n.invalidCredentials,
                           context,
                         );
                         setState(() {
@@ -138,13 +143,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: "Don't have an account? ",
+                        text: l10n.noAccount,
                         style: AppTextStyles.styleW400s14(
                           color: AppColors.lightTextColor,
                         ),
                         children: [
                           TextSpan(
-                            text: "Register",
+                            text: l10n.register,
                             style: AppTextStyles.styleW400s14(
                               color: AppColors.mainColor,
                             ),
@@ -164,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   children: [
                     Expanded(child: Divider()),
-                    Text('Or', style: AppTextStyles.styleW400s14()),
+                    Text(l10n.or, style: AppTextStyles.styleW400s14()),
                     Expanded(child: Divider()),
                   ],
                 ),
@@ -189,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Login with Google',
+                          l10n.loginWithGoogle,
                           style: AppTextStyles.styleW400s14(),
                         ),
                       ],

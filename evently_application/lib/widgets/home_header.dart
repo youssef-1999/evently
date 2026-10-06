@@ -1,8 +1,12 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/theme/app_colors.dart';
+import 'package:evently_application/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
 
 class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
   const HomeHeader({super.key});
@@ -22,13 +26,13 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
             crossAxisAlignment: .start,
             children: [
               Text(
-                "Welcome Back",
+                AppLocalizations.of(context)!.welcomeBack,
                 style: AppTextStyles.styleW400s14(
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
               ),
               Text(
-                "Youssef",
+                context.watch<UserProvider>().user?.name ?? '',
                 style: AppTextStyles.styleW500s20(
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),

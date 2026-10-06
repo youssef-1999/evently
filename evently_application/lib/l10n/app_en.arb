@@ -1,0 +1,90 @@
+{
+  "@@locale": "en",
+
+  "next": "Next",
+  "or": "Or",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "theme": "Theme",
+
+  "personalizeTitle": "Personalize Your Experience",
+  "personalizeSubtitle": "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+
+  "skip": "Skip",
+  "finish": "Finish",
+  "onboarding1Title": "Find Events That Inspire You",
+  "onboarding1Subtitle": "Dive into a world of events crafted to fit your unique interests. Whether you're into live music, art workshops, professional networking, or simply discovering new experiences, we have something for everyone. Our curated recommendations will help you explore, connect, and make the most of every opportunity around you.",
+  "onboarding2Title": "Effortless Event Planning",
+  "onboarding2Subtitle": "Take the hassle out of organizing events with our all-in-one planning tools. From setting up invites and managing RSVPs to scheduling reminders and coordinating details, we’ve got you covered. Plan with ease and focus on what matters – creating an unforgettable experience for you and your guests.",
+  "onboarding3Title": "Connect with Friends & Share Moments",
+  "onboarding3Subtitle": "Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.",
+
+  "loginTitle": "Login to your account",
+  "email": "Email",
+  "password": "Password",
+  "forgotPassword": "Forgot Password?",
+  "login": "Login",
+  "loginSuccess": "Login success",
+  "invalidCredentials": "Invalid email or password",
+  "noAccount": "Don't have an account? ",
+  "register": "Register",
+  "loginWithGoogle": "Login with Google",
+
+  "createAccount": "Create your account",
+  "enterName": "Enter your Name",
+  "enterEmail": "Enter your Email",
+  "enterPassword": "Enter your Password",
+  "confirmPassword": "Confirm your Password",
+  "registerSuccess": "Register successful",
+  "registerFailed": "Register failed",
+  "signUp": "Sign up",
+  "haveAccount": "Already have an account? ",
+  "signUpWithGoogle": "Sign up with Google",
+
+  "enterNameError": "Please enter your Name",
+  "enterEmailError": "Please enter your email",
+  "enterPasswordError": "Please enter your Password",
+  "passwordLengthError": "Password must be at least 6 characters",
+  "passwordMismatchError": "Password doesn't match",
+
+  "home": "Home",
+  "favorite": "Favorite",
+  "profile": "Profile",
+  "welcomeBack": "Welcome Back",
+
+  "all": "All",
+  "birthday": "Birthday",
+  "sport": "Sport",
+  "gaming": "Gaming",
+  "meeting": "Meeting",
+  "eating": "Eating",
+
+  "noEventsInCategory": "No events in this category",
+  "searchEvents": "Search for events",
+  "noFavorites": "No favorite events yet",
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+
+  "darkMode": "Dark mode",
+  "logout": "Logout",
+
+  "addEvent": "Add Event",
+  "title": "Title",
+  "eventTitle": "Event Title",
+  "enterTitleError": "Please enter a title",
+  "description": "Description",
+  "eventDescription": "Event Description",
+  "enterDescriptionError": "Please enter a description",
+  "eventDate": "Event Date",
+  "selectDate": "Select Date",
+  "selectDateError": "Please select a date",
+  "eventTime": "Event Time",
+  "selectTime": "Select Time",
+  "selectTimeError": "Please select a time",
+  "save": "Save"
+}

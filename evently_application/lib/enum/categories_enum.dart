@@ -1,3 +1,4 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,34 @@ enum CategoriesEnum {
             ? Assets.images.exhibition.path
             : Assets.images.exhibition1.path;
     }
+  }
+  static CategoriesEnum fromJson(String jsonName) {
+    for (var category in CategoriesEnum.values) {
+      if (category.name == jsonName) {
+        return category;
+      }
+    }
+    return CategoriesEnum.birthday; // Default value if no match is found
+   
+  }
+  String getTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case CategoriesEnum.birthday:
+        return l10n.birthday;
+      case CategoriesEnum.sport:
+        return l10n.sport;
+      case CategoriesEnum.gaming:
+        return l10n.gaming;
+      case CategoriesEnum.meeting:
+        return l10n.meeting;
+      case CategoriesEnum.eating:
+        return l10n.eating;
+    }
+  }
+
+  String toJson() {
+    return name;
   }
 
   IconData get getIcon {

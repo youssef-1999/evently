@@ -1,6 +1,7 @@
+import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/enum/categories_enum.dart';
 import 'package:evently_application/models/event_model.dart';
-import 'package:evently_application/service/events_store.dart';
+import 'package:evently_application/service/event_service.dart';
 import 'package:evently_application/widgets/custom_choice_chip.dart';
 import 'package:evently_application/widgets/event_card.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,11 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   // null means "All"
   CategoriesEnum? selectedCategory;
+  final eventsStream = EventService.getEventsStream();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         const SizedBox(height: 24),
@@ -57,9 +60,17 @@ class _HomeTabState extends State<HomeTab> {
         ),
         const SizedBox(height: 16),
         Expanded(
-          child: ValueListenableBuilder<List<EventModel>>(
-            valueListenable: EventsStore.events,
-            builder: (context, events, _) {
+          child: StreamBuilder<List<EventModel>>(
+            stream: eventsStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text(l10n.errorMessage('${snapshot.error}')));
+              }
+              final events = snapshot.data ?? [];
+
               final filteredEvents = selectedCategory == null
                   ? events
                   : events
@@ -67,7 +78,7 @@ class _HomeTabState extends State<HomeTab> {
                       .toList();
 
               if (filteredEvents.isEmpty) {
-                return const Center(child: Text('No events in this category'));
+                return Center(child: Text(l10n.noEventsInCategory));
               }
 
               return ListView.builder(
@@ -81,7 +92,7 @@ class _HomeTabState extends State<HomeTab> {
                     category: event.category,
                     isFavorite: event.isFavorite,
                     onFavoriteChanged: (value) =>
-                        EventsStore.setFavorite(event.id, value),
+                        EventService.updateEvent(event.copyWith(isFavorite: value)),
                   );
                 },
               );
