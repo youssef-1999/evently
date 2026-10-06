@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: TextSpan(
                         text: l10n.noAccount,
                         style: AppTextStyles.styleW400s14(
-                          color: AppColors.lightTextColor,
+                          color: Theme.of(context).textTheme.bodySmall?.color,
                         ),
                         children: [
                           TextSpan(
@@ -183,7 +183,36 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            UserModel? userData =
+                                await FirebaseAuthService.loginWithGoogle();
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (!context.mounted) return;
+                            if (userData != null) {
+                              context.read<UserProvider>().setUser(userData);
+                              Snackbar.successSnackbar(
+                                l10n.loginSuccess,
+                                context,
+                              );
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                HomeScreen.routeName,
+                                (route) => false,
+                              );
+                            } else if (FirebaseAuthService.lastError != null) {
+                              // null error = user cancelled the picker
+                              Snackbar.errorSnackbar(
+                                FirebaseAuthService.lastError!,
+                                context,
+                              );
+                            }
+                          },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

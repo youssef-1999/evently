@@ -5,6 +5,7 @@ import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/provider/user_provider.dart';
 import 'package:evently_application/screens/onboarding_screens.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
+import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/theme/app_theme.dart';
 import 'package:evently_application/widgets/rowtexticon.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       children: [
         Center(
@@ -31,13 +33,22 @@ class ProfileTab extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: Text(context.watch<UserProvider>().user?.name ?? '', style: AppTextStyles.styleW600s20()),
+          child: Text(
+            context.watch<UserProvider>().user?.name ?? '',
+            style: AppTextStyles.styleW600s20(
+              color: isDark ? AppColors.darkTextColor : AppColors.lightTextColor,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             context.watch<UserProvider>().user?.email ?? '',
-            style: AppTextStyles.styleW400s14(),
+            style: AppTextStyles.styleW400s14(
+              color: isDark
+                  ? AppColors.darkTextColor.withValues(alpha: 0.7)
+                  : AppColors.lightSecTextColor,
+            ),
           ),
         ),
         Padding(
@@ -59,7 +70,10 @@ class ProfileTab extends StatelessWidget {
               ),
               Rowtexticon(
                 text: l10n.language,
-                icon: const Icon(Icons.arrow_forward_ios),
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  color: isDark ? AppColors.mainColor : null,
+                ),
                 onTap: () {
                   // Handle tap
                 },

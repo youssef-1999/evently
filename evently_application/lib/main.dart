@@ -1,3 +1,4 @@
+import 'package:evently_application/common/app_language.dart';
 import 'package:evently_application/firebase_options.dart';
 import 'package:evently_application/screens/add_event.dart';
 import 'package:evently_application/screens/home_screen.dart';
@@ -34,15 +35,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: AppTheme.themeMode,
-      builder: (context, mode, _) => MaterialApp(
+    // rebuild the app when either the theme or the language changes
+    return ListenableBuilder(
+      listenable: Listenable.merge([AppTheme.themeMode, AppLanguage.locale]),
+      builder: (context, _) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        themeMode: mode,
+        locale: AppLanguage.locale.value,
+        themeMode: AppTheme.themeMode.value,
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),

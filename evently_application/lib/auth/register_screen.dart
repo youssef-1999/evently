@@ -3,6 +3,9 @@ import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/user_model.dart';
 import 'package:evently_application/auth/login_screen.dart';
+import 'package:evently_application/provider/user_provider.dart';
+import 'package:evently_application/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
 import 'package:evently_application/theme/app_colors.dart';
 import 'package:evently_application/widgets/custom_text_form_field.dart';
@@ -140,7 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   text: TextSpan(
     text: l10n.haveAccount,
 
-        style: AppTextStyles.styleW400s14(color: AppColors.lightTextColor),
+        style: AppTextStyles.styleW400s14(
+          color: Theme.of(context).textTheme.bodySmall?.color,
+        ),
     children: [
       TextSpan(
         text: l10n.login,
@@ -178,7 +183,36 @@ children: [
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            UserModel? userData =
+                                await FirebaseAuthService.loginWithGoogle();
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (!context.mounted) return;
+                            if (userData != null) {
+                              context.read<UserProvider>().setUser(userData);
+                              Snackbar.successSnackbar(
+                                l10n.loginSuccess,
+                                context,
+                              );
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                HomeScreen.routeName,
+                                (route) => false,
+                              );
+                            } else if (FirebaseAuthService.lastError != null) {
+                              // null error = user cancelled the picker
+                              Snackbar.errorSnackbar(
+                                FirebaseAuthService.lastError!,
+                                context,
+                              );
+                            }
+                          },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

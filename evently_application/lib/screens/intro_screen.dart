@@ -1,4 +1,5 @@
 import 'package:evently_application/l10n/app_localizations.dart';
+import 'package:evently_application/common/app_language.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/screens/onboarding_screens.dart';
 import 'package:evently_application/theme/app_colors.dart';
@@ -15,6 +16,7 @@ class IntroScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     // secColor is too dark to read on the dark background, so use mainColor there.
     final accent = isDark ? AppColors.mainColor : AppColors.secColor;
 
@@ -82,27 +84,31 @@ class IntroScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   ElevatedButton(
-                                    style: toggleStyle(selected: true),
+                                    style: toggleStyle(selected: !isArabic),
                                     child: Text(
                                       l10n.english,
                                       style: AppTextStyles.styleW600s16(
-                                        color: toggleForeground(selected: true),
+                                        color: toggleForeground(
+                                          selected: !isArabic,
+                                        ),
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () => AppLanguage.locale.value =
+                                        const Locale('en'),
                                   ),
                                   const SizedBox(width: 8),
                                   ElevatedButton(
-                                    style: toggleStyle(selected: false),
+                                    style: toggleStyle(selected: isArabic),
                                     child: Text(
                                       l10n.arabic,
                                       style: AppTextStyles.styleW600s16(
                                         color: toggleForeground(
-                                          selected: false,
+                                          selected: isArabic,
                                         ),
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () => AppLanguage.locale.value =
+                                        const Locale('ar'),
                                   ),
                                 ],
                               ),

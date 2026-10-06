@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_application/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
   // message of the last failed login/register, shown in the SnackBar
@@ -77,6 +78,62 @@ class FirebaseAuthService {
     }
   }
 
+  // google_sign_in v7 must be initialized once before authenticate()
+  static Future<void>? _googleInit;
+
+  //login with google
+  static Future<UserModel?> loginWithGoogle() async {
+    lastError = null;
+    try {
+      await (_googleInit ??= GoogleSignIn.instance.initialize());
+      GoogleSignInAccount account = await GoogleSignIn.instance.authenticate();
+      String? idToken = account.authentication.idToken;
+      OAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: idToken,
+      );
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      User firebaseUser = userCredential.user!;
+      log("---> Google login success");
+      UserModel googleUser = UserModel(
+        uid: firebaseUser.uid,
+        name: firebaseUser.displayName ?? account.displayName,
+        email: firebaseUser.email ?? account.email,
+        password: '',
+      );
+      // Auth succeeded -> the user is logged in even if Firestore fails
+      try {
+        UserModel? userData = await getUser(
+          firebaseUser.uid,
+        ).timeout(const Duration(seconds: 10));
+        if (userData == null) {
+          // first time with google -> create the Firestore doc
+          await createUser(googleUser).timeout(const Duration(seconds: 10));
+          return googleUser;
+        }
+        return userData;
+      } catch (e) {
+        log("---> Google login Firestore error (ignored): $e");
+        return googleUser;
+      }
+    } on GoogleSignInException catch (e) {
+      // user closed the account picker -> not an error
+      if (e.code != GoogleSignInExceptionCode.canceled) {
+        lastError = 'Google sign-in failed: ${e.description ?? e.code.name}';
+      }
+      log("---> Google sign-in ${e.code}: ${e.description}");
+      return null;
+    } on FirebaseAuthException catch (e) {
+      lastError = handleError(e.code, e.message);
+      log("---> Google login Firebase ${e.code}: ${e.message}");
+      return null;
+    } catch (e) {
+      lastError = 'Google login failed: $e';
+      log("---> Google login error: $e");
+      return null;
+    }
+  }
+
   static CollectionReference<UserModel> getUsersCollection() {
     return FirebaseFirestore.instance
         .collection('users')
@@ -123,5 +180,9 @@ class FirebaseAuthService {
   //logout
   static Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
+    // so the account picker shows again next time
+    if (_googleInit != null) {
+      await GoogleSignIn.instance.signOut();
+    }
   }
 }

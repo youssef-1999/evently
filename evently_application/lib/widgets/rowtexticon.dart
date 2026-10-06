@@ -1,4 +1,5 @@
 import 'package:evently_application/common/app_text_styles.dart';
+import 'package:evently_application/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class Rowtexticon extends StatelessWidget {
@@ -9,7 +10,7 @@ class Rowtexticon extends StatelessWidget {
     this.switchValue,
     this.onSwitchChanged,
     this.onTap,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.textStyle,
   });
 
@@ -18,14 +19,21 @@ class Rowtexticon extends StatelessWidget {
   final bool? switchValue;
   final ValueChanged<bool>? onSwitchChanged;
   final VoidCallback? onTap;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Material(
-      color: backgroundColor,
-      borderRadius: BorderRadius.circular(16),
+      color: backgroundColor ??
+          (isDark ? AppColors.darkBgColor : AppColors.lightColor),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: isDark
+            ? const BorderSide(color: AppColors.darkborderColor)
+            : BorderSide.none,
+      ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
@@ -35,7 +43,15 @@ class Rowtexticon extends StatelessWidget {
             height: 40,
             child: Row(
               children: [
-                Text(text, style: textStyle ?? AppTextStyles.styleW500s16()),
+                Text(
+                  text,
+                  style: textStyle ??
+                      AppTextStyles.styleW500s16(
+                        color: isDark
+                            ? AppColors.darkTextColor
+                            : AppColors.lightTextColor,
+                      ),
+                ),
                 const Spacer(),
                 if (switchValue != null)
                   Switch(value: switchValue!, onChanged: onSwitchChanged),

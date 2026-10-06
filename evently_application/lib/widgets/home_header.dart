@@ -1,4 +1,5 @@
 import 'package:evently_application/l10n/app_localizations.dart';
+import 'package:evently_application/common/app_language.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/theme/app_colors.dart';
@@ -16,6 +17,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: 72,
@@ -52,7 +54,10 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                // toggle between English and Arabic
+                onPressed: () => AppLanguage.locale.value = isArabic
+                    ? const Locale('en')
+                    : const Locale('ar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.mainColor,
                   foregroundColor: AppColors.lightColor,
@@ -60,7 +65,8 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text("En"),
+                // shows the language you'll switch to
+                child: Text(isArabic ? "En" : "Ar"),
               ),
             ],
           ),
