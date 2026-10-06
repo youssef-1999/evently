@@ -3,6 +3,7 @@ import 'package:evently_application/firebase_options.dart';
 import 'package:evently_application/screens/add_event.dart';
 import 'package:evently_application/screens/home_screen.dart';
 import 'package:evently_application/screens/intro_screen.dart';
+import 'package:evently_application/auth/forget_password.dart';
 import 'package:evently_application/auth/login_screen.dart';
 import 'package:evently_application/screens/onboarding_screens.dart';
 import 'package:evently_application/auth/register_screen.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
+          ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
           OnboardingScreens.routeName: (context) => OnboardingScreens(),
           HomeScreen.routeName: (context) => HomeScreen(),
           AddEvent.routeName: (context) => AddEvent(),

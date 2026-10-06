@@ -53,4 +53,21 @@ class EventService {
       debugPrint("-----> Error updating event: $e");
     }
   }
+
+  // live single event: emits null once the event is deleted
+  static Stream<EventModel?> getEventStream(String id) {
+    return getEventsCollection().doc(id).snapshots().map(
+          (snapshot) => snapshot.exists ? snapshot.data() : null,
+        );
+  }
+
+  static Future<void> deleteEvent(String id) async {
+    try {
+      final collection = getEventsCollection();
+      await collection.doc(id).delete();
+    } on Exception catch (e) {
+      // TODO
+      debugPrint("-----> Error deleting event: $e");
+    }
+  }
 }

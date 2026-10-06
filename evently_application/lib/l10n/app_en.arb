@@ -86,5 +86,18 @@
   "eventTime": "Event Time",
   "selectTime": "Select Time",
   "selectTimeError": "Please select a time",
-  "save": "Save"
+  "save": "Save",
+
+  "eventDetails": "Event Details",
+  "editEvent": "Edit Event",
+  "updateEvent": "Update Event",
+  "deleteEvent": "Delete Event",
+  "deleteEventConfirm": "Are you sure you want to delete this event?",
+  "cancel": "Cancel",
+  "delete": "Delete",
+
+  "forgetPassword": "Forget Password",
+  "resetPassword": "Reset password",
+  "resetEmailSent": "We sent a reset link to your email. Open it to type your new password.",
+  "resetPasswordFailed": "Could not send the reset email"
 }

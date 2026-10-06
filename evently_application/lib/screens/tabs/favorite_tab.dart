@@ -1,6 +1,7 @@
 import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/models/event_model.dart';
+import 'package:evently_application/screens/event_details_screen.dart';
 import 'package:evently_application/service/event_service.dart';
 import 'package:evently_application/widgets/event_card.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,12 @@ class _FavoriteTabState extends State<FavoriteTab> {
                     date: event.date,
                     category: event.category,
                     isFavorite: event.isFavorite,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => EventDetailsScreen(event: event),
+                      ),
+                    ),
                     onFavoriteChanged: (value) => EventService.updateEvent(
                       event.copyWith(isFavorite: value),
                     ),

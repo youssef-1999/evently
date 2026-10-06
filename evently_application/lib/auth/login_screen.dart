@@ -2,6 +2,7 @@ import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/common/app_text_styles.dart';
 import 'package:evently_application/gen/assets.gen.dart';
 import 'package:evently_application/models/user_model.dart';
+import 'package:evently_application/auth/forget_password.dart';
 import 'package:evently_application/auth/register_screen.dart';
 import 'package:evently_application/screens/home_screen.dart';
 import 'package:evently_application/service/firebase_auth_service.dart';
@@ -87,7 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Spacer(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          ForgetPasswordScreen.routeName,
+                          arguments: emailController.text.trim(),
+                        );
+                      },
                       child: Text(
                         l10n.forgotPassword,
                         style: AppTextStyles.styleW600s14(

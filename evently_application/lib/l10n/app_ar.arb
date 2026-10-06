@@ -81,5 +81,18 @@
   "eventTime": "وقت الفعالية",
   "selectTime": "اختر الوقت",
   "selectTimeError": "من فضلك اختر وقتًا",
-  "save": "حفظ"
+  "save": "حفظ",
+
+  "eventDetails": "تفاصيل الفعالية",
+  "editEvent": "تعديل الفعالية",
+  "updateEvent": "تحديث الفعالية",
+  "deleteEvent": "حذف الفعالية",
+  "deleteEventConfirm": "هل أنت متأكد أنك تريد حذف هذه الفعالية؟",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+
+  "forgetPassword": "نسيت كلمة المرور",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "resetEmailSent": "أرسلنا رابط إعادة التعيين إلى بريدك الإلكتروني. افتحه لكتابة كلمة المرور الجديدة.",
+  "resetPasswordFailed": "تعذّر إرسال رسالة إعادة التعيين"
 }

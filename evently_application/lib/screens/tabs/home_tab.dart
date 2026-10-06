@@ -1,6 +1,7 @@
 import 'package:evently_application/l10n/app_localizations.dart';
 import 'package:evently_application/enum/categories_enum.dart';
 import 'package:evently_application/models/event_model.dart';
+import 'package:evently_application/screens/event_details_screen.dart';
 import 'package:evently_application/service/event_service.dart';
 import 'package:evently_application/widgets/custom_choice_chip.dart';
 import 'package:evently_application/widgets/event_card.dart';
@@ -91,6 +92,12 @@ class _HomeTabState extends State<HomeTab> {
                     date: event.date,
                     category: event.category,
                     isFavorite: event.isFavorite,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => EventDetailsScreen(event: event),
+                      ),
+                    ),
                     onFavoriteChanged: (value) =>
                         EventService.updateEvent(event.copyWith(isFavorite: value)),
                   );

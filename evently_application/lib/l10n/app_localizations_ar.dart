@@ -227,4 +227,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get save => 'حفظ';
+
+  @override
+  String get eventDetails => 'تفاصيل الفعالية';
+
+  @override
+  String get editEvent => 'تعديل الفعالية';
+
+  @override
+  String get updateEvent => 'تحديث الفعالية';
+
+  @override
+  String get deleteEvent => 'حذف الفعالية';
+
+  @override
+  String get deleteEventConfirm => 'هل أنت متأكد أنك تريد حذف هذه الفعالية؟';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get forgetPassword => 'نسيت كلمة المرور';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetEmailSent =>
+      'أرسلنا رابط إعادة التعيين إلى بريدك الإلكتروني. افتحه لكتابة كلمة المرور الجديدة.';
+
+  @override
+  String get resetPasswordFailed => 'تعذّر إرسال رسالة إعادة التعيين';
 }

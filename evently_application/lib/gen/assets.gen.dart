@@ -95,6 +95,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/evently.png
   AssetGenImage get evently => const AssetGenImage('assets/images/evently.png');
 
+  /// File path: assets/images/forget-password-dark.png
+  AssetGenImage get forgetPasswordDark =>
+      const AssetGenImage('assets/images/forget-password-dark.png');
+
+  /// File path: assets/images/forget-password-light.png
+  AssetGenImage get forgetPasswordLight =>
+      const AssetGenImage('assets/images/forget-password-light.png');
+
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
@@ -154,6 +162,8 @@ class $AssetsImagesGen {
     calendarAdd,
     clock,
     evently,
+    forgetPasswordDark,
+    forgetPasswordLight,
     google,
     homeDark,
     homeLight,

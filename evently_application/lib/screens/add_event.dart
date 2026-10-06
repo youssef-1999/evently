@@ -12,23 +12,34 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+  const AddEvent({super.key, this.event});
   static const routeName = '/add-event-screen';
+  // when an event is passed the screen works in edit mode
+  final EventModel? event;
   @override
   State<AddEvent> createState() => _AddEventState();
 }
 
 class _AddEventState extends State<AddEvent> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
- 
+  late TextEditingController titleController =
+      TextEditingController(text: widget.event?.title);
+  late TextEditingController descriptionController =
+      TextEditingController(text: widget.event?.description);
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  bool get isEditing => widget.event != null;
+
   Future<void> pickDate(NewEventProvider provider) async {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final selected = provider.selectedDate;
+    // an event being edited may already be in the past
+    final firstDate =
+        selected != null && selected.isBefore(today) ? selected : today;
     final date = await showDatePicker(
       context: context,
-      initialDate: provider.selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: selected ?? today,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
@@ -58,13 +69,17 @@ class _AddEventState extends State<AddEvent> {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ChangeNotifierProvider(
-      create: (_) => NewEventProvider(),
+      create: (_) => isEditing
+          ? NewEventProvider.fromEvent(widget.event!)
+          : NewEventProvider(),
       child: Builder(
         builder: (ctx) {
          NewEventProvider provider= Provider.of<NewEventProvider>(ctx, listen: true);
          NewEventProvider provider2= Provider.of<NewEventProvider>(ctx, listen: false);
           return Scaffold(
-            appBar: AppBar(title: Text(l10n.addEvent)),
+            appBar: AppBar(
+              title: Text(isEditing ? l10n.editEvent : l10n.addEvent),
+            ),
             body: Form(
               key: formKey,
               child: SingleChildScrollView(
@@ -161,19 +176,32 @@ class _AddEventState extends State<AddEvent> {
                         onPressed: () {
                          bool isValid = formKey.currentState?.validate() ?? false;
                           if (!isValid) return;
-                          EventModel event = EventModel(
-                            id: DateTime.now().millisecondsSinceEpoch.toString(),
-                            title: titleController.text,
-                            description: descriptionController.text,
-                            date: provider.getFormattedDate(),
-                            category: provider.selectedCategory,
-                            isFavorite: false,
-                          );
-                          EventService.addEvent(event);
+                          if (isEditing) {
+                            EventService.updateEvent(
+                              widget.event!.copyWith(
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                date: provider.getFormattedDate(),
+                                dateTime: provider.getSelectedDateTime(),
+                                category: provider.selectedCategory,
+                              ),
+                            );
+                          } else {
+                            EventModel event = EventModel(
+                              id: DateTime.now().millisecondsSinceEpoch.toString(),
+                              title: titleController.text,
+                              description: descriptionController.text,
+                              date: provider.getFormattedDate(),
+                              dateTime: provider.getSelectedDateTime(),
+                              category: provider.selectedCategory,
+                              isFavorite: false,
+                            );
+                            EventService.addEvent(event);
+                          }
                           Navigator.pop(context);
                         },
                         child: Text(
-                          l10n.save,
+                          isEditing ? l10n.updateEvent : l10n.save,
                           style: const TextStyle(color: AppColors.lightColor),
                         ),
                       ),

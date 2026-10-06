@@ -226,4 +226,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get eventDetails => 'Event Details';
+
+  @override
+  String get editEvent => 'Edit Event';
+
+  @override
+  String get updateEvent => 'Update Event';
+
+  @override
+  String get deleteEvent => 'Delete Event';
+
+  @override
+  String get deleteEventConfirm =>
+      'Are you sure you want to delete this event?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get forgetPassword => 'Forget Password';
+
+  @override
+  String get resetPassword => 'Reset password';
+
+  @override
+  String get resetEmailSent =>
+      'We sent a reset link to your email. Open it to type your new password.';
+
+  @override
+  String get resetPasswordFailed => 'Could not send the reset email';
 }

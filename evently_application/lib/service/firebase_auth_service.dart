@@ -177,6 +177,24 @@ class FirebaseAuthService {
         return message ?? 'Something went wrong ($code).';
     }
   }
+  // forget password: firebase emails a link where the user types the new password
+  static Future<bool> sendPasswordResetEmail(String email) async {
+    lastError = null;
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      log("---> Password reset email sent");
+      return true;
+    } on FirebaseAuthException catch (e) {
+      lastError = handleError(e.code, e.message);
+      log("---> Reset password Firebase ${e.code}: ${e.message}");
+      return false;
+    } catch (e) {
+      lastError = 'Reset password failed: $e';
+      log("---> Reset password error: $e");
+      return false;
+    }
+  }
+
   //logout
   static Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
